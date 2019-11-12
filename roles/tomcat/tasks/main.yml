@@ -59,7 +59,7 @@
     mode: '0755'
     recurse: yes
 
-- name: "\e[30;48;5;214mRegister service\e[0m"
+- name: "\e[30;48;5;214mRegister service on {{ http_port }}\e[0m"
   command: "{{ item.command }}"
   with_items:
     - { command: 'svccfg import /var/svc/manifest/site/tomcat9.xml' }
@@ -74,6 +74,6 @@
     owner: tomcat
     group: tomcat
     mode: '0644'
-    backup: yes
+#    backup: yes
   notify: restart tomcat
 
