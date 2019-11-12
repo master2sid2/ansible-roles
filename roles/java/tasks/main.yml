@@ -1,0 +1,14 @@
+---
+
+- name: Solaris 11 | Install openjre
+  pkg5:
+    name: "{{ openjre_package }}"
+    state: present
+
+- name: Solaris 11 | Install openjdk
+  pkg5:
+    name: "{{ openjdk_package }}"
+    state: present
+
+  when: ansible_distribution_version|int >= 11
+

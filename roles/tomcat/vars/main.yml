@@ -1,0 +1,4 @@
+http_port: 8282
+site_name: myapp.local
+tomcat_base_dir: /opt/tomcat
+app_base: /rpool/www

@@ -1,0 +1,9 @@
+---
+- name: Install tomcat server
+  hosts: solaris
+  become: yes
+  roles:
+    - java
+    - tomcat
+  vars:
+    java_version: "8" 
