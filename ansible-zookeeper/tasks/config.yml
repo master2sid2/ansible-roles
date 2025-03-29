@@ -1,0 +1,26 @@
+- name: Validate zookeeper_nodes for cluster mode
+  ansible.builtin.assert:
+    that:
+      - zookeeper_nodes is defined
+      - zookeeper_nodes | length > 1
+    fail_msg: "zookeeper_nodes must be defined and have at least two nodes in cluster mode"
+  when: zookeeper_mode == "cluster"
+
+- name: Create myid (cluster mode only)
+  ansible.builtin.copy:
+    dest: "{{ zookeeper_data }}/myid"
+    content: "{{ item.0 + 1 }}"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: '0644'
+  with_indexed_items: "{{ zookeeper_nodes }}"
+  when: zookeeper_mode == "cluster" and item.1 == inventory_hostname
+
+- name: Generate conf file Zookeeper
+  ansible.builtin.template:
+    src: zoo.cfg.j2
+    dest: "{{ zookeeper_conf }}"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: '0644'
+  notify: Restart Zookeeper

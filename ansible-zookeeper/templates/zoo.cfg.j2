@@ -1,0 +1,11 @@
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir={{ zookeeper_data }}
+clientPort={{ zookeeper_client_port }}
+
+{% if zookeeper_mode == "cluster" %}
+{% for host in zookeeper_nodes %}
+server.{{ loop.index }}={{ host }}:2888:3888
+{% endfor %}
+{% endif %}

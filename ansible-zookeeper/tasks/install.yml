@@ -1,0 +1,30 @@
+- name: Download Zookeeper
+  ansible.builtin.get_url:
+    url: "{{ zookeeper_url }}"
+    dest: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
+
+- name: Extracting Zookeeper
+  ansible.builtin.unarchive:
+    src: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
+    dest: "/opt"
+    remote_src: yes
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+
+- name: Create Zookeeper home symlink
+  ansible.builtin.file:
+    src: "{{ zookeeper_install }}"
+    dest: "{{ zookeeper_home }}"
+    state: link
+
+- name: Create systemd unit
+  ansible.builtin.template:
+    src: zookeeper.service.j2
+    dest: /etc/systemd/system/zookeeper.service
+    mode: '0644'
+  notify: Reload systemd
+
+- name: Remove Zookeeper archive
+  ansible.builtin.file:
+    path: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
+    state: absent

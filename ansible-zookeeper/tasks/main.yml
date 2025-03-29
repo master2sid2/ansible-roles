@@ -1,0 +1,8 @@
+- name: Install Zookeeper
+  ansible.builtin.import_tasks: install.yml
+
+- name: Generating configs
+  ansible.builtin.import_tasks: config.yml
+
+- name: Run and test
+  ansible.builtin.import_tasks: service.yml
