@@ -1,3 +1,6 @@
+- name: Install missing packages
+  ansible.builtin.import_tasks: preparation.yml
+
 - name: Install Zookeeper
   ansible.builtin.import_tasks: install.yml
 
