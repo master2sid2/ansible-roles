@@ -9,5 +9,4 @@
   ansible.builtin.wait_for:
     port: "{{ zookeeper_client_port }}"
     timeout: 5
-    retries: 5
     delay: 3
